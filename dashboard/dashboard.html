@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Limpando7 | Dashboard</title>
+
+    <link rel="stylesheet" href="./dashboard.css">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         DASHBOARD LIMPANDO7
+         ===================================================== -->
+
+    <header class="dashboard-header">
+
+        <div class="dashboard-logo">
+            <h1>NEXUS GESTIORA</h1>
+            <span>Painel Administrativo</span>
+        </div>
+
+        <div class="dashboard-user">
+            <span>Administrador</span>
+            <button type="button" id="btnLogout">
+                Sair
+            </button>
+        </div>
+
+    </header>
+
+
+    <main class="dashboard-main">
+
+        <!-- =================================================
+             ESTATÍSTICAS
+             ================================================= -->
+
+        <section class="dashboard-stats">
+
+            <div class="stat-card">
+                <span class="stat-label">Total de pedidos</span>
+                <strong id="totalPedidos">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">Novos</span>
+                <strong id="novosPedidos">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">Agendados</span>
+                <strong id="agendadosPedidos">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">Concluídos</span>
+                <strong id="concluidosPedidos">0</strong>
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PEDIDOS
+             ================================================= -->
+
+        <section class="pedidos-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Pedidos</h2>
+                    <p>Solicitações recebidas através do site.</p>
+                </div>
+
+                <div class="filtros">
+
+                    <select id="filtroStatus">
+                        <option value="todos">Todos</option>
+                        <option value="Novo">Novos</option>
+                        <option value="Contactado">Contactados</option>
+                        <option value="Agendado">Agendados</option>
+                        <option value="Concluído">Concluídos</option>
+                    </select>
+
+
+                    <button type="button" id="btnTogglePedidos" class="btn-toggle-section" aria-expanded="true">
+                        − Ocultar
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 TABELA
+                 ================================================= -->
+
+            <div class="table-container" id="pedidosTabelaContainer">
+
+                <table class="pedidos-table">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Serviço</th>
+                            <th>Data</th>
+                            <th>Horário</th>
+                            <th>Status</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="ordersTableBody">
+
+                        <!--
+                            Os pedidos reais serão inseridos
+                            aqui pelo dashboard.js.
+                        -->
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <!-- =================================================
+     AVALIAÇÕES
+     ================================================= -->
+
+        <section class="avaliacoes-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Avaliações</h2>
+                    <p>Avaliações enviadas pelos clientes.</p>
+                </div>
+
+            </div>
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Avaliações</h2>
+                    <p>Avaliações enviadas pelos clientes.</p>
+                </div>
+
+                <button type="button" id="btnToggleAvaliacoes" class="btn-toggle-section" aria-expanded="true">
+                    − Ocultar
+                </button>
+
+            </div>
+
+
+            <div <div id="avaliacoesContainer" class="avaliacoes-container">>
+
+                <!--
+            As avaliações pendentes serão
+            carregadas pelo dashboard.js.
+        -->
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         MODAL DE DETALHES DO PEDIDO
+         ===================================================== -->
+
+    <div id="pedidoModal" class="modal" aria-hidden="true">
+
+        <div class="modal-overlay"></div>
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Detalhes do pedido</h2>
+                    <p>Informações da solicitação.</p>
+                </div>
+
+                <button type="button" class="modal-close" id="fecharPedidoModal" aria-label="Fechar">
+                    &times;
+                </button>
+
+            </div>
+
+
+            <div id="pedidoModalBody" class="modal-body">
+                <!-- Detalhes inseridos pelo dashboard.js -->
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script src="dashboard.js"></script>
+
+</body>
+
+</html>

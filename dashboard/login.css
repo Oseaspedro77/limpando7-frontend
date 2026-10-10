@@ -1,0 +1,558 @@
+/* ============================================================
+   NEXUS GESTIORA
+   LOGIN — IDENTIDADE VISUAL
+   ============================================================
+
+   IMPORTANTE:
+   Este arquivo controla SOMENTE a aparência do login.
+
+   Não contém JavaScript.
+   Não altera autenticação.
+   Não altera IDs.
+   Não altera nomes dos campos.
+
+   ============================================================ */
+
+
+/* ============================================================
+   01. BASE
+   ============================================================ */
+
+:root {
+
+    --login-bg: #03070b;
+
+    --login-card: #0b141c;
+
+    --login-card-soft: #101d27;
+
+    --login-primary: #2ca8ff;
+
+    --login-primary-dark: #168bd8;
+
+    --login-white: #ffffff;
+
+    --login-text: #dce7ef;
+
+    --login-muted: #8da0af;
+
+    --login-border: rgba(255, 255, 255, 0.10);
+
+}
+
+
+/* ============================================================
+   02. PÁGINA
+   ============================================================ */
+
+.login-page {
+
+    position: relative;
+
+     min-height: 100dvh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 24px;
+
+    overflow: hidden;
+
+    background:
+
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(44, 168, 255, 0.18),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(44, 168, 255, 0.08),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            135deg,
+            #020509 0%,
+            #07131d 50%,
+            #020609 100%
+        );
+
+}
+
+
+/* ============================================================
+   03. LUZ AMBIENTE
+   ============================================================ */
+
+.login-page::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 600px;
+
+    height: 600px;
+
+    top: -350px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background:
+
+        radial-gradient(
+            circle,
+            rgba(44, 168, 255, 0.18),
+            transparent 68%
+        );
+
+    filter: blur(25px);
+
+    pointer-events: none;
+
+}
+
+
+/* ============================================================
+   04. CARTÃO
+   ============================================================ */
+
+.login-page .login-card {
+
+    position: relative;
+
+    z-index: 1;
+
+    width: min(440px, 100%);
+
+    padding: 46px 40px;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(18, 32, 43, 0.96),
+            rgba(6, 13, 19, 0.98)
+        );
+
+    border: 1px solid rgba(105, 190, 255, 0.18);
+
+    border-radius: 26px;
+
+    box-shadow:
+
+        0 30px 80px rgba(0, 0, 0, 0.65),
+
+        0 0 60px rgba(44, 168, 255, 0.08),
+
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+    backdrop-filter: blur(20px);
+
+    -webkit-backdrop-filter: blur(20px);
+
+}
+
+
+/* ============================================================
+   05. TÍTULO
+   ============================================================ */
+
+.login-page .login-card h1 {
+
+    margin: 0 0 8px;
+
+    color: var(--login-white);
+
+    font-size: 36px;
+
+    font-weight: 800;
+
+    line-height: 1;
+
+    letter-spacing: -1px;
+
+    text-align: center;
+
+    text-shadow:
+
+        0 0 20px rgba(44, 168, 255, 0.30);
+
+}
+
+
+/* Linha luminosa abaixo do título */
+
+.login-page .login-card h1::after {
+
+    content: "";
+
+    display: block;
+
+    width: 42px;
+
+    height: 3px;
+
+    margin: 13px auto 0;
+
+    border-radius: 20px;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            var(--login-primary-dark),
+            var(--login-primary)
+        );
+
+    box-shadow:
+
+        0 0 14px rgba(44, 168, 255, 0.55);
+
+}
+
+
+/* ============================================================
+   06. SUBTÍTULO
+   ============================================================ */
+
+.login-page .login-card > p {
+
+    margin: 18px 0 36px;
+
+    color: var(--login-muted);
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    letter-spacing: 0.4px;
+
+    text-align: center;
+
+}
+
+
+/* ============================================================
+   07. FORMULÁRIO
+   ============================================================ */
+
+.login-page #loginForm {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+}
+
+
+/* ============================================================
+   08. LABELS
+   ============================================================ */
+
+.login-page #loginForm label {
+
+    margin-top: 8px;
+
+    color: var(--login-text);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.4px;
+
+    text-transform: uppercase;
+
+}
+
+
+/* ============================================================
+   09. CAMPOS
+   ============================================================ */
+
+.login-page #loginForm input {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    height: 54px;
+
+    padding: 0 17px;
+
+    background: rgba(2, 7, 11, 0.72);
+
+    color: var(--login-white);
+
+    border: 1px solid var(--login-border);
+
+    border-radius: 13px;
+
+    outline: none;
+
+    box-shadow:
+
+        inset 0 1px 5px rgba(0, 0, 0, 0.30);
+
+    transition:
+
+        border-color 0.25s ease,
+
+        box-shadow 0.25s ease,
+
+        background 0.25s ease;
+
+}
+
+
+/* Placeholder */
+
+.login-page #loginForm input::placeholder {
+
+    color: #617381;
+
+}
+
+
+/* Campo selecionado */
+
+.login-page #loginForm input:focus {
+
+    background: rgba(4, 13, 20, 0.92);
+
+    border-color: var(--login-primary);
+
+    box-shadow:
+
+        0 0 0 3px rgba(44, 168, 255, 0.10),
+
+        0 0 24px rgba(44, 168, 255, 0.10),
+
+        inset 0 1px 5px rgba(0, 0, 0, 0.35);
+
+}
+
+
+/* ============================================================
+   10. BOTÃO ENTRAR
+   ============================================================ */
+
+.login-page #loginForm button {
+
+    width: 100%;
+
+    min-height: 54px;
+
+    margin-top: 20px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            var(--login-primary-dark),
+            var(--login-primary)
+        );
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.4px;
+
+    cursor: pointer;
+
+    box-shadow:
+
+        0 10px 30px rgba(44, 168, 255, 0.22);
+
+    transition:
+
+        transform 0.25s ease,
+
+        box-shadow 0.25s ease,
+
+        filter 0.25s ease;
+
+}
+
+
+/* Hover */
+
+.login-page #loginForm button:hover {
+
+    transform: translateY(-2px);
+
+    filter: brightness(1.08);
+
+    box-shadow:
+
+        0 15px 38px rgba(44, 168, 255, 0.32);
+
+}
+
+
+/* Clique */
+
+.login-page #loginForm button:active {
+
+    transform: translateY(0);
+
+}
+
+
+/* ============================================================
+   11. MENSAGEM DE ERRO / STATUS
+   ============================================================ */
+
+.login-page .login-error {
+
+    min-height: 20px;
+
+    margin-top: 8px;
+
+    color: #ff6b6b;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+
+    text-align: center;
+
+}
+
+
+/* ============================================================
+   12. RESPONSIVO
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .login-page {
+
+        padding: 20px;
+
+    }
+
+
+    .login-page .login-card {
+
+        width: 100%;
+
+        padding: 36px 24px;
+
+        border-radius: 22px;
+
+    }
+
+
+    .login-page .login-card h1 {
+
+        font-size: 31px;
+
+    }
+
+}
+
+
+@media (max-width: 380px) {
+
+    .login-page {
+
+        padding: 14px;
+
+    }
+
+
+    .login-page .login-card {
+
+        padding: 32px 20px;
+
+    }
+
+
+    .login-page .login-card h1 {
+
+        font-size: 28px;
+
+    }
+
+}
+
+.nexus-logo {
+    display: block;
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    margin: 0 auto 22px;
+}
+
+@media (max-width: 600px) {
+
+    .nexus-logo {
+        width: 90px;
+        height: 90px;
+        margin-bottom: 18px;
+    }
+
+}
+
+.nexus-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(44, 168, 255, 0.16),
+            transparent 35%
+        ),
+        #03070b;
+}
+
+.nexus-splash img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+
+    margin-bottom: 24px;
+
+    filter:
+        drop-shadow(0 0 25px rgba(44, 168, 255, 0.35));
+}
+
+.nexus-splash h1 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 2px;
+
+    text-align: center;
+
+    text-shadow:
+        0 0 20px rgba(44, 168, 255, 0.35);
+}

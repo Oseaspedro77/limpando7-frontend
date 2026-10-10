@@ -1,0 +1,959 @@
+/* =====================================================
+   LIMPANDO7 — DASHBOARD ADMINISTRATIVO
+   ===================================================== */
+
+:root {
+    --bg: #0b0b0b;
+    --bg-card: #151515;
+    --bg-card-hover: #1b1b1b;
+    --border: #292929;
+    --text: #ffffff;
+    --text-muted: #9a9a9a;
+    --primary: #2ca8ff;
+    --danger: #ff4d4d;
+    --success: #35c759;
+}
+
+
+/* =====================================================
+   RESET
+   ===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+
+.dashboard-header {
+      min-height: 86px;
+    padding: 18px 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #101010;
+    border-bottom: 1px solid var(--border);
+
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.dashboard-logo h1 {
+    font-size: 24px;
+    color: var(--primary);
+}
+
+.dashboard-logo span {
+    display: block;
+    margin-top: 4px;
+
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.dashboard-user {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   CONTEÚDO
+   ===================================================== */
+
+.dashboard-main {
+    width: min(1400px, 94%);
+    margin: 35px auto;
+}
+
+
+/* =====================================================
+   ESTATÍSTICAS
+   ===================================================== */
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    position: relative;
+
+    padding: 24px 26px;
+
+    background: linear-gradient(
+        145deg,
+        #171717,
+        #101010
+    );
+
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.20);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(44, 168, 255, 0.45);
+}
+
+.stat-label {
+    display: block;
+
+    margin-bottom: 12px;
+
+    color: var(--text-muted);
+
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.stat-card strong {
+    display: block;
+
+    font-size: 34px;
+    line-height: 1;
+
+    color: var(--primary);
+}
+
+
+
+/* =====================================================
+   SEÇÃO PEDIDOS
+   ===================================================== */
+
+
+    .pedidos-section {
+    background: #111111;
+
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+
+
+.section-header {
+    
+    padding: 24px 26px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #151515;
+
+    border-bottom: 1px solid var(--border);
+
+}
+
+.section-header h2 {
+    
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+
+}
+
+.section-header p {
+    margin-top: 6px;
+
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   FILTRO
+   ===================================================== */
+
+.filtros select {
+    min-width: 170px;
+    padding: 10px 12px;
+
+    background: #101010;
+    color: var(--text);
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    outline: none;
+    cursor: pointer;
+}
+
+.filtros select:focus {
+    border-color: var(--primary);
+}
+
+
+/* =====================================================
+   TABELA
+   ===================================================== */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.pedidos-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pedidos-table th,
+.pedidos-table td {
+      padding: 17px 16px;
+    text-align: left;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.pedidos-table th {
+    color: #8f8f8f;
+
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.pedidos-table td {
+    color: #eeeeee;
+
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.pedidos-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.pedidos-table tbody tr:hover {
+    background: #191919;
+}
+
+.pedidos-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.pedidos-table th {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.pedidos-table td {
+    font-size: 14px;
+}
+
+.pedidos-table tbody tr:hover {
+    background: var(--bg-card-hover);
+}
+
+
+/* =====================================================
+   STATUS
+   ===================================================== */
+
+.status {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-new {
+    color: #ffffff;
+    background: rgba(44, 168, 255, 0.18);
+    border: 1px solid rgba(44, 168, 255, 0.35);
+}
+
+.status-contacted {
+    color: #ffffff;
+    background: #66511c;
+}
+
+    .status-scheduled {
+    color: #ffffff;
+    background: rgba(53, 199, 89, 0.16);
+    border: 1px solid rgba(53, 199, 89, 0.35);
+}
+
+
+.status-completed {
+    color: #ffffff;
+    background: #4b3670;
+}
+
+
+/* =====================================================
+   AÇÃO
+   ===================================================== */
+
+.table-action {
+    min-width: 54px;
+
+    padding: 8px 14px;
+
+    background: transparent;
+    color: var(--primary);
+
+    border: 1px solid var(--primary);
+    border-radius: 7px;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.table-action:hover {
+    background: var(--primary);
+    color: #000000;
+
+    transform: translateY(-1px);
+}
+
+.table-action:active {
+    transform: translateY(0);
+}
+
+
+/* =====================================================
+   MODAL
+   ===================================================== */
+
+.modal {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 1000;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.modal-content {
+     position: relative;
+
+    width: min(680px, 100%);
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: #141414;
+
+    border: 1px solid #303030;
+    border-radius: 16px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.55);
+
+    z-index: 1;
+}
+
+.modal-header {
+    padding: 22px;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-header h2 {
+    font-size: 20px;
+}
+
+.modal-header p {
+    margin-top: 5px;
+
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.modal-close {
+    width: 34px;
+    height: 34px;
+
+    background: transparent;
+    color: var(--text);
+
+    border: 1px solid var(--border);
+    border-radius: 7px;
+
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+
+    .modal-body {
+    padding: 26px;
+}
+
+
+
+/* =====================================================
+   RESPONSIVO
+   ===================================================== */
+
+@media (max-width: 900px) {
+
+    .dashboard-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-header {
+        padding: 18px 22px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .dashboard-main {
+        width: 94%;
+        margin: 20px auto;
+    }
+
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 18px;
+    }
+
+    .filtros select {
+        width: 100%;
+    }
+
+    .dashboard-user {
+        display: none;
+    }
+
+}
+
+/* =====================================================
+   CONTROLES DOS PEDIDOS
+   ===================================================== */
+
+.pedidos-controles {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+/* Botão ocultar/mostrar */
+
+.btn-toggle-section {
+
+    min-height: 40px;
+
+    padding: 0 14px;
+
+    background: transparent;
+
+    color: var(--text-muted);
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+
+}
+
+
+.btn-toggle-section:hover {
+
+    color: var(--primary);
+
+    border-color: var(--primary);
+
+    background:
+        rgba(44, 168, 255, 0.08);
+
+}
+
+
+/* Tabela recolhida */
+
+.table-container.is-hidden {
+
+    display: none;
+
+}
+
+
+/* Responsivo */
+
+@media (max-width: 600px) {
+
+    .pedidos-controles {
+
+        width: 100%;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+    .btn-toggle-section {
+
+        width: 100%;
+
+    }
+
+}
+
+/* =====================================================
+   AVALIAÇÕES
+   ===================================================== */
+
+.avaliacoes-section {
+
+    margin-top: 30px;
+
+    background: #111111;
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.18);
+
+}
+
+
+/* -----------------------------------------------------
+   CONTAINER
+   ----------------------------------------------------- */
+
+.avaliacoes-container {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0;
+
+}
+
+
+/* -----------------------------------------------------
+   CARD DE AVALIAÇÃO
+   ----------------------------------------------------- */
+
+.avaliacao-admin-card {
+
+    display: grid;
+
+    grid-template-columns:
+        110px 1fr auto;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 20px 24px;
+
+    border-bottom:
+        1px solid var(--border);
+
+    background: #111111;
+
+    transition:
+        background 0.2s ease;
+
+}
+
+
+.avaliacao-admin-card:hover {
+
+    background:
+        var(--bg-card-hover);
+
+}
+
+
+.avaliacao-admin-card:last-child {
+
+    border-bottom: none;
+
+}
+
+
+/* -----------------------------------------------------
+   FOTO
+   ----------------------------------------------------- */
+
+.avaliacao-admin-foto {
+
+    width: 100px;
+
+    height: 100px;
+
+    object-fit: cover;
+
+    display: block;
+
+    border-radius: 12px;
+
+    border:
+        1px solid var(--border);
+
+    background: #181818;
+
+}
+
+
+/* -----------------------------------------------------
+   CONTEÚDO
+   ----------------------------------------------------- */
+
+.avaliacao-admin-conteudo {
+
+    min-width: 0;
+
+}
+
+
+.avaliacao-admin-conteudo h3 {
+
+    margin-bottom: 7px;
+
+    color: var(--text);
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+}
+
+
+.avaliacao-admin-estrelas {
+
+    margin-bottom: 9px;
+
+    color: #ffc107;
+
+    font-size: 16px;
+
+    letter-spacing: 1px;
+
+}
+
+
+.avaliacao-admin-comentario {
+
+    max-width: 650px;
+
+    color: var(--text-muted);
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    word-break: break-word;
+
+}
+
+
+/* -----------------------------------------------------
+   STATUS
+   ----------------------------------------------------- */
+
+.avaliacao-admin-status {
+
+    display: inline-flex;
+
+    margin-top: 12px;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    color: #ffffff;
+
+    background:
+        rgba(255, 193, 7, 0.14);
+
+    border:
+        1px solid rgba(255, 193, 7, 0.30);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+}
+
+
+/* -----------------------------------------------------
+   BOTÕES
+   ----------------------------------------------------- */
+
+.avaliacao-admin-acoes {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    min-width: 100px;
+
+}
+
+
+.avaliacao-admin-acoes button {
+
+    min-width: 100px;
+
+    padding: 9px 12px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+
+.btn-aprovar-avaliacao {
+
+    color: #ffffff;
+
+    background:
+        rgba(53, 199, 89, 0.15);
+
+    border:
+        1px solid rgba(53, 199, 89, 0.40);
+
+}
+
+
+.btn-aprovar-avaliacao:hover {
+
+    color: #ffffff;
+
+    background:
+        var(--success);
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+.btn-rejeitar-avaliacao {
+
+    color: #ffffff;
+
+    background:
+        rgba(255, 77, 77, 0.12);
+
+    border:
+        1px solid rgba(255, 77, 77, 0.35);
+
+}
+
+
+.btn-rejeitar-avaliacao:hover {
+
+    color: #ffffff;
+
+    background:
+        var(--danger);
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+/* -----------------------------------------------------
+   QUANDO NÃO EXISTIREM AVALIAÇÕES
+   ----------------------------------------------------- */
+
+.avaliacoes-container > p {
+
+    padding: 30px 24px;
+
+    color: var(--text-muted);
+
+    text-align: center;
+
+    font-size: 14px;
+
+}
+
+
+/* =====================================================
+   RESPONSIVO
+   ===================================================== */
+
+@media (max-width: 800px) {
+
+    .avaliacao-admin-card {
+
+        grid-template-columns:
+            90px 1fr;
+
+        gap: 15px;
+
+        padding: 18px;
+
+    }
+
+
+    .avaliacao-admin-foto {
+
+        width: 90px;
+
+        height: 90px;
+
+    }
+
+
+    .avaliacao-admin-acoes {
+
+        grid-column:
+            1 / -1;
+
+        flex-direction: row;
+
+        width: 100%;
+
+    }
+
+
+    .avaliacao-admin-acoes button {
+
+        flex: 1;
+
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .avaliacao-admin-card {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .avaliacao-admin-foto {
+
+        width: 100%;
+
+        height: 180px;
+
+    }
+
+
+    .avaliacao-admin-acoes {
+
+        grid-column: auto;
+
+    }
+
+}
+
+/* =====================================================
+   AVALIAÇÕES — OCULTAR / MOSTRAR
+   ===================================================== */
+
+.avaliacoes-container.is-hidden {
+    display: none;
+}
