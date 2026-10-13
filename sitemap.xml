@@ -1,15 +1,8 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://limpando7.pt/</loc>
-=======
 
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.limpando7.pt/</loc>
->>>>>>> 6b8075a (Corrige URL principal do sitemap)
     <lastmod>2026-10-11</lastmod>
   </url>
 </urlset>
