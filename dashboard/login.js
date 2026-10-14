@@ -10,7 +10,7 @@ loginForm.addEventListener("submit", async (event) => {
     loginError.textContent = "A verificar...";
 
     try {
-        const resposta = await fetch("http://localhost:8080/pedidos", {
+        const resposta = await fetch("https://limpando7-backend-production.up.railway.app/pedidos", {
             method: "GET",
             headers: {
                 "Authorization": "Basic " + btoa(`${username}:${password}`)
