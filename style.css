@@ -1953,8 +1953,6 @@ ul {
 
     display: grid;
 
-    flex-direction: column;
-
     gap: 18px;
 
 }
@@ -2064,28 +2062,6 @@ ul {
         0 0 0 4px rgba(44, 168, 255, 0.12);
 
 }
-
-
-
-
-.rating-star {
-
-    border: 0;
-
-    padding: 2px;
-
-    background: transparent;
-
-    color: #c8c8c8;
-
-    font-size: 1.8rem;
-
-    line-height: 1;
-
-    cursor: pointer;
-
-}
-
 
 
 .testimonial-submit {
@@ -3454,3 +3430,270 @@ ul {
     position: relative;
     z-index: 1;
 }
+ 
+
+/* =========================================================
+   LIMPANDO7 — ONDE ATUAMOS | MAPA NEON
+   ========================================================= */
+
+.area-atuacao {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(3.5rem, 7vw, 6rem) 1.25rem;
+    color: #fff;
+    text-align: center;
+    background:
+        radial-gradient(ellipse at 50% 45%, rgba(0, 91, 180, 0.12), transparent 65%),
+        #050912;
+}
+
+.area-atuacao__conteudo {
+    width: min(100%, 1100px);
+    margin: 0 auto;
+}
+
+.area-atuacao__etiqueta {
+    display: inline-block;
+    margin-bottom: 0.8rem;
+    color: #36b7ff;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-shadow: 0 0 14px rgba(44, 168, 255, 0.45);
+}
+
+.area-atuacao h2 {
+    margin: 0 0 1rem;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+.area-atuacao h2 span {
+    color: #2ca8ff;
+    text-shadow: 0 0 22px rgba(44, 168, 255, 0.35);
+}
+
+.area-atuacao__descricao {
+    max-width: 620px;
+    margin: 0 auto 2rem;
+    color: #b7c9dc;
+    line-height: 1.8;
+}
+
+/* Moldura do mapa */
+
+.area-atuacao__mapa {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    margin: 2rem auto 1.4rem;
+    overflow: hidden;
+    border: 1px solid rgba(44, 168, 255, 0.8);
+    border-radius: 18px;
+    background: #030914;
+    box-shadow:
+        0 0 12px rgba(0, 136, 255, 0.22),
+        0 0 35px rgba(0, 136, 255, 0.15),
+        inset 0 0 25px rgba(0, 136, 255, 0.08);
+}
+
+#mapa-limpando7 {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 440px;
+    overflow: hidden;
+    background: #030914;
+}
+
+/* Controlos de navegação MapLibre */
+
+#mapa-limpando7 .maplibregl-ctrl-group {
+    overflow: hidden;
+    border: 1px solid rgba(44, 168, 255, 0.65);
+    border-radius: 9px;
+    background: rgba(4, 17, 34, 0.96);
+    box-shadow: 0 0 16px rgba(0, 136, 255, 0.22);
+}
+
+#mapa-limpando7 .maplibregl-ctrl-group button {
+    background-color: transparent;
+}
+
+#mapa-limpando7 .maplibregl-ctrl-group button:hover {
+    background-color: rgba(44, 168, 255, 0.16);
+}
+
+#mapa-limpando7 .maplibregl-ctrl-icon {
+    filter: invert(65%) sepia(83%) saturate(1600%)
+        hue-rotate(174deg) brightness(105%);
+}
+
+#mapa-limpando7 .maplibregl-ctrl-attrib {
+    color: #a9dfff;
+    background: rgba(3, 9, 20, 0.85);
+}
+
+#mapa-limpando7 .maplibregl-ctrl-attrib a {
+    color: #36b7ff;
+}
+
+/* Pin gigante azul-neon */
+
+.limpando7-pin-neon {
+    position: relative;
+    display: block;
+    width: 34px;
+    height: 34px;
+    box-sizing: border-box;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff 0 13%, #75d8ff 24%, #078cff 58%, #004cff 100%);
+    cursor: pointer;
+    box-shadow:
+        0 0 9px #fff,
+        0 0 20px #078cff,
+        0 0 38px #078cff,
+        0 0 65px rgba(0, 136, 255, 0.8);
+    animation: limpando7-pin-brilhar 1.4s ease-in-out infinite alternate;
+}
+
+.limpando7-pin-neon::before,
+.limpando7-pin-neon::after {
+    content: "";
+    position: absolute;
+    inset: -9px;
+    box-sizing: border-box;
+    border: 2px solid #25baff;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: limpando7-pin-pulsar 2s ease-out infinite;
+}
+
+.limpando7-pin-neon::after {
+    animation-delay: 1s;
+}
+
+@keyframes limpando7-pin-pulsar {
+    0% {
+        transform: scale(0.65);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2.8);
+        opacity: 0;
+    }
+}
+
+@keyframes limpando7-pin-brilhar {
+    from {
+        filter: brightness(0.9);
+    }
+
+    to {
+        filter: brightness(1.35);
+    }
+}
+
+/* Janela dos marcadores */
+
+#mapa-limpando7 .maplibregl-popup-content {
+    padding: 14px 17px;
+    border: 1px solid rgba(44, 168, 255, 0.7);
+    border-radius: 10px;
+    color: #eaf7ff;
+    background: #071525;
+    box-shadow: 0 0 22px rgba(0, 136, 255, 0.25);
+    line-height: 1.6;
+}
+
+#mapa-limpando7 .maplibregl-popup-tip {
+    border-top-color: #071525;
+    border-bottom-color: #071525;
+}
+
+#mapa-limpando7 .maplibregl-popup-close-button {
+    color: #7ed5ff;
+    font-size: 20px;
+}
+
+/* Localidades atendidas */
+
+.area-atuacao__localidades {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 1.4rem;
+    color: #d7e9f8;
+    font-size: 0.95rem;
+}
+
+.area-atuacao__indicador {
+    width: 9px;
+    height: 9px;
+    flex: 0 0 9px;
+    border-radius: 50%;
+    background: #2ca8ff;
+    box-shadow: 0 0 12px #078cff, 0 0 24px #078cff;
+    animation: limpando7-indicador-pulsar 1.8s ease-out infinite;
+}
+
+@keyframes limpando7-indicador-pulsar {
+    0% {
+        transform: scale(0.7);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+/* Telemóveis */
+
+@media (max-width: 600px) {
+    .area-atuacao {
+        padding: 3.5rem 1rem;
+    }
+
+    #mapa-limpando7 {
+        height: 340px;
+    }
+
+    .area-atuacao__mapa {
+        border-radius: 14px;
+    }
+
+    .limpando7-pin-neon {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/* Acessibilidade */
+
+@media (prefers-reduced-motion: reduce) {
+    .limpando7-pin-neon,
+    .limpando7-pin-neon::before,
+    .limpando7-pin-neon::after,
+    .area-atuacao__indicador {
+        animation: none;
+    }
+}
+
+
+/* Áreas de cobertura da Limpando7 no mapa */
+.limpando7-cobertura {
+    fill: #078cff;
+    fill-opacity: 0.16;
+    stroke: #20aaff;
+    stroke-width: 2.5px;
+    stroke-opacity: 0.95;
+}
+
+
+/* FIM — ONDE ATUAMOS | MAPA NEON */

@@ -3,14 +3,12 @@
 
 <head>
 
-    
-
     <meta charset="UTF-8">
 
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    
+
     <meta name="description"
         content="Limpando7: limpeza e higienização profissional de sofás, colchões, estofos, tapetes e automóveis na Grande Lisboa.">
 
@@ -21,7 +19,7 @@
     </title>
 
 
-    
+
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
@@ -31,18 +29,14 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap"
         rel="stylesheet">
 
-
-    <!--
-         FONT AWESOME
-         -->
-
+                                              <!-- icones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-
-    
 
     <link rel="stylesheet" href="./style.css">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.10.1/build/css/intlTelInput.css">
+
+    <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet" />
 
 </head>
 
@@ -491,7 +485,7 @@
         </section>
 
 
-        
+
 
         <section class="section mites-section" id="acaros">
 
@@ -902,16 +896,11 @@
                     </div>
 
                     <div class="form-field">
+                        <label for="telefone">Telefone</label>
 
-                        <label for="telefone">
-                            Telefone
-                        </label>
-
-                        <input type="tel" id="telefone" name="telefone" placeholder="O seu telefone" autocomplete="tel"
-                            required>
-
+                        <input type="tel" id="telefone" name="telefone"
+                            placeholder="Selecione o país e digite o telefone" autocomplete="tel" required>
                     </div>
-
 
                     <div class="form-field">
 
@@ -979,7 +968,7 @@
                             Horário pretendido
                         </label>
 
-                        <input type="time" id="horario" name="horario" required>
+                        <input type="time" id="horario" name="horario" min="08:00" max="18:00" required>
 
                     </div>
 
@@ -1168,14 +1157,18 @@
 
 
                         <div class="testimonial-field">
+                            <label for="avaliacaoFoto">A sua foto (opcional)</label>
+                            <input type="file" id="avaliacaoFoto" name="avaliacaoFoto" accept="image/*">
+                        </div>
 
-                            <label for="avaliacaoFoto">
-                                Foto de perfil
-                            </label>
 
-                            <input type="file" id="avaliacaoFoto" name="avaliacaoFoto"
-                                accept="image/jpeg,image/png,image/webp">
+                        <div class="testimonial-field">
+                            <label for="avaliacaoTexto">O seu comentário</label>
 
+                            <textarea id="avaliacaoTexto" name="avaliacaoTexto" rows="3" maxlength="45"
+                                placeholder="Conte-nos brevemente a sua experiência..." required></textarea>
+
+                            <small id="contadorAvaliacao">0/45 caracteres</small>
                         </div>
 
 
@@ -1216,19 +1209,6 @@
                             </div>
 
                         </div>
-
-
-                        <div class="testimonial-field">
-
-                            <label for="avaliacaoTexto">
-                                O seu comentário
-                            </label>
-
-                            <textarea id="avaliacaoTexto" name="avaliacaoTexto" rows="5"
-                                placeholder="Conte-nos como foi a sua experiência..." required></textarea>
-
-                        </div>
-
 
                         <button type="button" class="testimonial-submit" id="enviarAvaliacao">
                             Enviar avaliação
@@ -1346,6 +1326,36 @@
             </div>
 
         </section>
+
+
+        <!-- ONDE ATUAMOS — LIMPANDO7 -->
+        <section class="area-atuacao" id="onde-atuamos">
+            <div class="area-atuacao__conteudo">
+
+                <span class="area-atuacao__etiqueta">
+                    A NOSSA PRESENÇA
+                </span>
+
+                <h2>Onde <span>atuamos</span></h2>
+
+                <p class="area-atuacao__descricao">
+                    Levamos cuidado e higienização até si.
+                </p>
+
+                <div class="area-atuacao__mapa">
+                    <div id="mapa-limpando7" role="application"
+                        aria-label="Mapa interativo da área de atuação da Limpando7">
+                    </div>
+                </div>
+
+                <p class="area-atuacao__localidades">
+                    <span class="area-atuacao__indicador"></span>
+                    Lisboa e arredores · Sintra · Cascais
+                </p>
+
+            </div>
+        </section>
+        <!-- FIM ONDE ATUAMOS -->
 
     </main>
 
@@ -1466,7 +1476,16 @@
     </footer>
 
 
+
+    <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.10.1/build/js/intlTelInput.min.js"></script>
+
+
     <script src="./script.js"></script>
+
+
 
 </body>
 

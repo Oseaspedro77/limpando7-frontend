@@ -8,7 +8,13 @@ if (!auth) {
     window.location.href = "login.html";
 }
 
-const API_URL = "https://limpando7-backend-production.up.railway.app/pedidos";
+const API_BASE_URL =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+        ? "http://localhost:8080"
+        : "https://limpando7-backend-production.up.railway.app";
+
+const API_URL = `${API_BASE_URL}/pedidos`;
 
 let pedidosDashboard = [];
 
@@ -22,6 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarPedidos();
 
     carregarAvaliacoesPendentes();
+
+    carregarAvaliacoesAprovadas();
 
 
 
@@ -305,149 +313,80 @@ function mostrarPedidos(pedidos) {
 // =====================================================
 
 async function carregarAvaliacoesPendentes() {
-
     try {
-
         const resposta = await fetch(
-           "https://limpando7-backend-production.up.railway.app/avaliacoes?status=PENDENTE",
+
+            `${API_BASE_URL}/avaliacoes?status=PENDENTE`,
+
             {
                 method: "GET",
-
                 headers: {
                     "Authorization":
                         "Basic " +
-                        sessionStorage.getItem(
-                            "limpando7_auth"
-                        )
+                        sessionStorage.getItem("limpando7_auth")
                 }
             }
         );
 
-
         if (!resposta.ok) {
-
             throw new Error(
                 "Não foi possível carregar as avaliações."
             );
-
         }
 
+        const avaliacoes = await resposta.json();
 
-        const avaliacoes =
-            await resposta.json();
+        console.log("Avaliações pendentes:", avaliacoes);
 
-
-        console.log(
-            "Avaliações pendentes:",
-            avaliacoes
+        const container = document.getElementById(
+            "avaliacoesContainer"
         );
 
-
-        // =====================================================
-        // MOSTRAR AVALIAÇÕES NO DASHBOARD
-        // =====================================================
-
-        const container =
-            document.getElementById(
-                "avaliacoesContainer"
-            );
-
-
         if (!container) {
-
             console.error(
                 "Container de avaliações não encontrado."
             );
-
             return;
-
         }
-
-
-        // -----------------------------------------------------
-        // LIMPAR O CONTAINER
-        // -----------------------------------------------------
 
         container.innerHTML = "";
 
-
-        // -----------------------------------------------------
-        // CASO NÃO EXISTAM AVALIAÇÕES PENDENTES
-        // -----------------------------------------------------
-
         if (avaliacoes.length === 0) {
-
             container.innerHTML = `
-                <p>
-                    Não existem avaliações pendentes.
-                </p>
+                <p>Não existem avaliações pendentes.</p>
             `;
-
             return;
-
         }
 
-
-        // -----------------------------------------------------
-        // CRIAR OS CARDS
-        // -----------------------------------------------------
-
         avaliacoes.forEach((avaliacao) => {
+            const card = document.createElement("article");
+            card.className = "avaliacao-admin-card";
 
-            const card =
-                document.createElement("article");
-
-
-            card.className =
-                "avaliacao-admin-card";
-
-
-            // -------------------------------------------------
-            // ESTRELAS
-            // -------------------------------------------------
-
-            const nota =
-                Number(avaliacao.nota) || 0;
-
+            const nota = Math.max(
+                0,
+                Math.min(5, Number(avaliacao.nota) || 0)
+            );
 
             const estrelas =
-                "★".repeat(nota) +
-                "☆".repeat(5 - nota);
-
-
-            // -------------------------------------------------
-            // FOTO
-            // -------------------------------------------------
+                "★".repeat(nota) + "☆".repeat(5 - nota);
 
             let imagem = "";
 
-
             if (avaliacao.foto) {
-
                 imagem = `
                     <img
-                        src="https://limpando7-backend-production.up.railway.app/uploads/${avaliacao.foto}"
+                        src="${API_BASE_URL}/uploads/${avaliacao.foto}"
                         alt="Foto enviada por ${avaliacao.nome || "cliente"}"
                         class="avaliacao-admin-foto"
                     >
                 `;
-
             }
 
-
-            // -------------------------------------------------
-            // CONTEÚDO DO CARD
-            // -------------------------------------------------
-
             card.innerHTML = `
-
                 ${imagem}
 
                 <div class="avaliacao-admin-conteudo">
-
-                    <h3>
-                        ${avaliacao.nome || "-"}
-                    </h3>
+                    <h3>${avaliacao.nome || "-"}</h3>
 
                     <div class="avaliacao-admin-estrelas">
                         ${estrelas}
@@ -460,47 +399,145 @@ async function carregarAvaliacoesPendentes() {
                     <span class="avaliacao-admin-status">
                         ${avaliacao.status || "PENDENTE"}
                     </span>
-
                 </div>
 
                 <div class="avaliacao-admin-acoes">
+                    <button
+                        type="button"
+                        class="btn-aprovar-avaliacao"
+                        data-avaliacao-id="${avaliacao.id}"
+                    >
+                        Aprovar
+                    </button>
 
-    <button
-        type="button"
-        class="btn-aprovar-avaliacao"
-        data-avaliacao-id="${avaliacao.id}"
-    >
-        Aprovar
-    </button>
+                    <button
+                        type="button"
+                        class="btn-rejeitar-avaliacao"
+                        data-avaliacao-id="${avaliacao.id}"
+                    >
+                        Rejeitar
+                    </button>
 
-    <button
-        type="button"
-        class="btn-rejeitar-avaliacao"
-        data-avaliacao-id="${avaliacao.id}"
-    >
-        Rejeitar
-    </button>
-
-</div>
-
+                    <button
+                        type="button"
+                        class="btn-excluir-avaliacao"
+                        data-avaliacao-id="${avaliacao.id}"
+                    >
+                        Excluir
+                    </button>
+                </div>
             `;
 
-
             container.appendChild(card);
-
         });
 
-
     } catch (erro) {
-
         console.error(
             "Erro ao carregar avaliações:",
             erro
         );
-
     }
 
 }
+
+
+async function carregarAvaliacoesAprovadas() {
+    const container = document.getElementById("avaliacoesAprovadasContainer");
+
+    if (!container) return;
+
+    try {
+        const resposta = await fetch(
+            `${API_BASE_URL}/avaliacoes/aprovadas`,
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": "Basic " +
+                        sessionStorage.getItem("limpando7_auth")
+                }
+            }
+        );
+
+        if (!resposta.ok) {
+            throw new Error("Erro ao carregar avaliações aprovadas.");
+        }
+
+        const avaliacoes = await resposta.json();
+
+        container.innerHTML = "";
+
+        if (avaliacoes.length === 0) {
+            container.innerHTML = "<p>Não existem avaliações aprovadas.</p>";
+            return;
+        }
+
+        avaliacoes.forEach((avaliacao) => {
+            const card = document.createElement("article");
+            card.className = "avaliacao-admin-card";
+
+            const nota = Math.max(0, Math.min(5, Number(avaliacao.nota) || 0));
+            const estrelas = "★".repeat(nota) + "☆".repeat(5 - nota);
+
+            card.innerHTML = `
+                <div class="avaliacao-admin-conteudo">
+                    <h3>${avaliacao.nome || "-"}</h3>
+                    <div class="avaliacao-admin-estrelas">${estrelas}</div>
+                    <p class="avaliacao-admin-comentario">${avaliacao.comentario || "-"}</p>
+                    <span class="avaliacao-admin-status">${avaliacao.status || "APROVADA"}</span>
+                </div>
+
+                <div class="avaliacao-admin-acoes">
+                    <button
+                        type="button"
+                        class="btn-excluir-avaliacao"
+                        data-avaliacao-id="${avaliacao.id}"
+                    >
+                        Excluir
+                    </button>
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+
+    } catch (erro) {
+        console.error("Erro ao carregar avaliações aprovadas:", erro);
+    }
+}
+
+
+    
+async function excluirAvaliacao(id) {
+    const confirmar = confirm(
+        "Tem certeza que deseja excluir esta avaliação? Esta ação não pode ser desfeita."
+    );
+
+    if (!confirmar) return;
+
+    try {
+        const resposta = await fetch(
+            `${API_BASE_URL}/avaliacoes/${id}`,
+            {
+                method: "DELETE",
+                headers: {
+                    Authorization: "Basic " + sessionStorage.getItem("limpando7_auth")
+                }
+            }
+        );
+
+        if (!resposta.ok) {
+            throw new Error("Erro ao excluir avaliação.");
+        }
+
+        alert("Avaliação excluída com sucesso!");
+
+        await carregarAvaliacoesPendentes();
+
+    } catch (erro) {
+        console.error("Erro ao excluir avaliação:", erro);
+        alert("Não foi possível excluir a avaliação.");
+    }
+} 
 
 // =====================================================
 // APROVAR AVALIAÇÃO
@@ -517,7 +554,7 @@ async function carregarAvaliacoesPendentes() {
 
 async function aprovarAvaliacao(id) {
 
-     const botoes = document.querySelectorAll(
+    const botoes = document.querySelectorAll(
         ".btn-aprovar-avaliacao"
     );
 
@@ -528,7 +565,7 @@ async function aprovarAvaliacao(id) {
     try {
 
         const resposta = await fetch(
-            `https://limpando7-backend-production.up.railway.app/avaliacoes/${id}/status`,
+            `${API_BASE_URL}/avaliacoes/${id}/status`,
             {
                 method: "PUT",
 
@@ -598,7 +635,7 @@ async function rejeitarAvaliacao(id) {
     try {
 
         const resposta = await fetch(
-            `https://limpando7-backend-production.up.railway.app/avaliacoes/${id}/status`,
+            `${API_BASE_URL}/avaliacoes/${id}/status`,
             {
                 method: "PUT",
 
@@ -635,7 +672,7 @@ async function rejeitarAvaliacao(id) {
         // Recarrega somente as avaliações pendentes.
         carregarAvaliacoesPendentes();
 
-        
+
 
     } catch (erro) {
 
@@ -720,6 +757,29 @@ document.addEventListener("click", (evento) => {
     rejeitarAvaliacao(avaliacaoId);
 
 });
+
+
+document.addEventListener("click", function (evento) {
+
+    const botao = evento.target.closest(
+        ".btn-excluir-avaliacao"
+    );
+
+    if (!botao) {
+        return;
+    }
+
+    const avaliacaoId = botao.dataset.avaliacaoId;
+
+    if (!avaliacaoId) {
+        console.error("ID da avaliação não encontrado.");
+        return;
+    }
+
+    excluirAvaliacao(avaliacaoId);
+
+});
+
 
 // =====================================================
 // NORMALIZAR STATUS
@@ -1234,4 +1294,26 @@ if (
         }
     );
 
+}
+
+// MOSTRAR / OCULTAR AVALIAÇÕES APROVADAS
+const btnToggleAvaliacoesAprovadas =
+    document.getElementById("btnToggleAvaliacoesAprovadas");
+
+const avaliacoesAprovadasContainer =
+    document.getElementById("avaliacoesAprovadasContainer");
+
+if (btnToggleAvaliacoesAprovadas && avaliacoesAprovadasContainer) {
+    btnToggleAvaliacoesAprovadas.addEventListener("click", () => {
+        const oculto =
+            avaliacoesAprovadasContainer.classList.toggle("is-hidden");
+
+        btnToggleAvaliacoesAprovadas.textContent =
+            oculto ? "+ Mostrar" : "− Ocultar";
+
+        btnToggleAvaliacoesAprovadas.setAttribute(
+            "aria-expanded",
+            String(!oculto)
+        );
+    });
 }

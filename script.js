@@ -57,8 +57,11 @@ const WHATSAPP_NUMBER = "351914308807";
    Histórico do projecto confirma o endpoint POST /pedidos
    na porta 8080.
 */
-const API_BASE_URL = "https://limpando7-backend-production.up.railway.app";
-
+const API_BASE_URL =
+    window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+        ? "http://localhost:8080"
+        : "https://limpando7-backend-production.up.railway.app";
 
 /*
    Chave utilizada para guardar a aceitação
@@ -220,19 +223,21 @@ async function carregarAvaliacoesAprovadas() {
 
                 if (avaliacao.foto) {
 
-                    const imagem =
-                        document.createElement("img");
+                    const imagem = document.createElement("img");
 
-                    imagem.src =
-                        `https://limpando7-backend-production.up.railway.app/uploads/${avaliacao.foto}`;
+                    imagem.className = "testimonial-avatar";
+                    imagem.alt = `Foto de ${avaliacao.nome || "cliente"}`;
 
-                    imagem.alt =
-                        `Foto enviada por ${avaliacao.nome || "cliente"
-                        }`;
+                    imagem.src = avaliacao.foto
+                        ? `${API_BASE_URL}/uploads/${encodeURIComponent(avaliacao.foto)}`
+                        : "assets/avatar-padrao.png";
 
-                    card.appendChild(
-                        imagem
-                    );
+                    imagem.onerror = () => {
+                        imagem.onerror = null;
+                        imagem.src = "assets/avatar-padrao.png";
+                    };
+
+                    card.appendChild(imagem);
                 }
 
 
@@ -370,6 +375,11 @@ document.addEventListener("DOMContentLoaded", () => {
     */
 
     carregarAvaliacoesAprovadas();
+
+    /*
+       09. Inicializar mapa de atuação
+    */
+    initMapaAtuacao();
 
 });
 
@@ -1329,6 +1339,20 @@ function initQuoteForm() {
         return;
     }
 
+    // Inicializa a validação internacional do telefone.
+    const telefoneInput = document.getElementById("telefone");
+
+    const telefoneIntl = telefoneInput && window.intlTelInput
+        ? window.intlTelInput(telefoneInput, {
+            initialCountry: "pt",
+            preferredCountries: ["pt", "br"],
+            separateDialCode: true,
+            nationalMode: true,
+            loadUtils: () => import(
+                "https://cdn.jsdelivr.net/npm/intl-tel-input@25.10.1/build/js/utils.js"
+            )
+        })
+        : null;
 
     /*
        Capturamos a área onde as mensagens
@@ -1417,10 +1441,48 @@ function initQuoteForm() {
                VALIDAÇÃO
                ------------------------------------------------- */
 
+            // Valida o telefone antes de permitir o envio.
+            if (
+                !telefoneIntl ||
+                !telefoneIntl.isValidNumber() ||
+                !telefoneIntl.getNumber() ||
+                telefoneInput.value.trim().startsWith("+")
+            ) {
+                showFormMessage(
+                    formMessage,
+                    "Por favor, selecione o país e introduza um número de telefone válido.",
+                    "error"
+                );
+
+                telefoneInput.focus();
+                return;
+            }
+
+            // Impede agendamentos fora do horário comercial.
+            const horarioSelecionado =
+                document.getElementById("horario").value;
+
+            if (
+                horarioSelecionado &&
+                (horarioSelecionado < "08:00" ||
+                    horarioSelecionado > "18:00")
+            ) {
+                showFormMessage(
+                    formMessage,
+                    "Por favor, selecione um horário entre 08:00 e 18:00.",
+                    "error"
+                );
+
+                document.getElementById("horario").focus();
+                return;
+            }
+            
             /*
                Validamos todos os campos antes
                de construir a mensagem.
             */
+
+
 
             const validation =
                 validateQuoteForm(form);
@@ -1494,10 +1556,8 @@ function initQuoteForm() {
                 ).trim();
 
 
-            const telefone =
-                String(
-                    formData.get("telefone") || ""
-                ).trim();
+            // Guarda o telefone no formato internacional.
+            const telefone = telefoneIntl.getNumber();
 
 
             const email =
@@ -3466,6 +3526,20 @@ foi selecionada inicialmente.
             "avaliacaoTexto"
         );
 
+    // Atualiza o contador de caracteres em tempo real durante a digitação.
+    const contadorAvaliacao =
+        document.getElementById("contadorAvaliacao");
+
+    if (commentInput && contadorAvaliacao) {
+        const atualizarContador = () => {
+            contadorAvaliacao.textContent =
+                `${commentInput.value.length}/45 caracteres`;
+        };
+
+        commentInput.addEventListener("input", atualizarContador);
+        atualizarContador();
+    }
+
     const submitButton =
         document.getElementById(
             "enviarAvaliacao"
@@ -3514,6 +3588,32 @@ foi selecionada inicialmente.
                    comentario
                    foto
                 */
+
+
+                if (!nome) {
+                    alert("Por favor, indique o seu nome.");
+                    nameInput?.focus();
+                    return;
+                }
+
+
+                if (!selectedRating) {
+                    alert("Por favor, escolha uma classificação de 1 a 5 estrelas.");
+                    return;
+                }
+
+                if (!comentario) {
+                    alert("Por favor, escreva o seu comentário.");
+                    commentInput?.focus();
+                    return;
+                }
+
+                if (comentario.length > 45) {
+                    alert("O comentário deve ter no máximo 45 caracteres.");
+                    commentInput?.focus();
+                    return;
+                }
+
 
                 /*
     ---------------------------------------------------------
@@ -4122,53 +4222,155 @@ if (heroSlides.length > 1) {
 
 }
 
-/* =========================================================
-   26. FINALIZAÇÃO
-   ========================================================= */
+function initMapaAtuacao() {
+    const elementoMapa = document.getElementById("mapa-limpando7");
 
-/*
-   Não colocamos código executável solto aqui.
+    if (!elementoMapa) {
+        console.error("Limpando7: elemento do mapa não encontrado.");
+        return;
+    }
 
-   Toda a lógica do projecto é inicializada através
-   dos módulos definidos anteriormente.
+    if (typeof maplibregl === "undefined") {
+        console.error("Limpando7: biblioteca MapLibre não carregada.");
+        return;
+    }
 
-   Isso mantém o arquivo previsível e facilita
-   futuras microcirurgias.
-*/
+    if (elementoMapa.dataset.mapaInicializado === "true") return;
+    elementoMapa.dataset.mapaInicializado = "true";
+
+    const mapa = new maplibregl.Map({
+        container: elementoMapa,
+        style: "https://tiles.openfreemap.org/styles/dark",
+        center: [-9.1393, 38.7223],
+        zoom: 9.5,
+        attributionControl: true
+    });
+
+    mapa.addControl(new maplibregl.NavigationControl(), "top-left");
+
+    const localidades = [
+        { nome: "Lisboa", coordenadas: [-9.1393, 38.7223] },
+        { nome: "Sintra", coordenadas: [-9.3817, 38.8029] },
+        { nome: "Cascais", coordenadas: [-9.4215, 38.6979] }
+    ];
+
+    const raioCoberturaKm = 15;
+
+    mapa.on("load", () => {
+        // Efeito azul neon nas camadas de estradas.
+        mapa.getStyle().layers.forEach((camada) => {
+            const id = camada.id.toLowerCase();
+
+            const eEstrada =
+                id.includes("road") ||
+                id.includes("transportation") ||
+                id.includes("street") ||
+                id.includes("highway");
+
+            if (eEstrada && camada.type === "line") {
+                mapa.setPaintProperty(
+                    camada.id,
+                    "line-color",
+                    "#20aaff"
+                );
+
+                mapa.setPaintProperty(
+                    camada.id,
+                    "line-opacity",
+                    0.95
+                );
+            }
+        });
 
 
-/* =========================================================
-   FIM DO SCRIPT.JS
-   =========================================================
+        // Prepara as áreas geográficas de cobertura.
+        const circulosCobertura = localidades.map((localidade) => {
+            const [longitude, latitude] = localidade.coordenadas;
+            const raioMetros = raioCoberturaKm * 1000;
+            const pontos = [];
+            const segmentos = 96;
 
-   LIMPANDO7
-   Higienização & Estofos
+            for (let i = 0; i <= segmentos; i++) {
+                const angulo = (i / segmentos) * 2 * Math.PI;
+                const raioLatitude = raioMetros / 111320;
+                const raioLongitude =
+                    raioMetros /
+                    (111320 * Math.cos(latitude * Math.PI / 180));
 
-   Estrutura:
+                pontos.push([
+                    longitude + raioLongitude * Math.cos(angulo),
+                    latitude + raioLatitude * Math.sin(angulo)
+                ]);
+            }
 
-   01. Inicialização
-   02. Termos e segurança
-   03. Menu mobile
-   04. Comparador Antes e Depois
-   05. Protecção WhatsApp
-   06. Formulário
-   07. Mensagens
-   08. Acessibilidade
-   09. Protecção de alterações
-   10. Estado dos termos
-   11. Protecção de acesso
-   12. Validação de data
-   13. Validação de telefone
-   14. Normalização de telefone
-   15. Validação WhatsApp
-   16. Construção da URL
-   17. Erros WhatsApp
-   18. Protecção do envio
-   19. Abertura WhatsApp
-   20. Inicialização complementar
-   22. Ano do rodapé
-   23. Acessibilidade do menu
-   24. Verificação dos elementos
-   25. Estado do projecto
+            return {
+                type: "Feature",
+                properties: {
+                    nome: localidade.nome
+                },
+                geometry: {
+                    type: "Polygon",
+                    coordinates: [pontos]
+                }
+            };
+        });
 
-   ========================================================= */
+
+        mapa.addSource("limpando7-cobertura", {
+            type: "geojson",
+            data: {
+                type: "FeatureCollection",
+                features: circulosCobertura
+            }
+        });
+
+
+        mapa.addLayer({
+            id: "limpando7-cobertura-preenchimento",
+            type: "fill",
+            source: "limpando7-cobertura",
+            paint: {
+                "fill-color": "#078cff",
+                "fill-opacity": 0.16
+            }
+        });
+
+        mapa.addLayer({
+            id: "limpando7-cobertura-contorno",
+            type: "line",
+            source: "limpando7-cobertura",
+            paint: {
+                "line-color": "#20aaff",
+                "line-width": 2.5,
+                "line-opacity": 0.95
+            }
+        });
+
+
+
+
+        // Mantém os três marcadores e os respetivos popups.
+        localidades.forEach((localidade) => {
+            const marcador = document.createElement("div");
+            marcador.className = "limpando7-pin-neon";
+            marcador.setAttribute("aria-label", localidade.nome);
+            marcador.title = localidade.nome;
+
+            new maplibregl.Marker({
+                element: marcador,
+                anchor: "center"
+            })
+                .setLngLat(localidade.coordenadas)
+                .setPopup(
+                    new maplibregl.Popup({ offset: 24 })
+                        .setHTML(
+                            "<strong>" + localidade.nome +
+                            "</strong><br>Limpando7 — Higienização &amp; Estofos"
+                        )
+                )
+                .addTo(mapa);
+        });
+    });
+
+    setTimeout(() => mapa.resize(), 300);
+}
