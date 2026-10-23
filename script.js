@@ -93,14 +93,7 @@ const TERMS_STORAGE_KEY =
 // aprovou.
 // =========================================================
 
-// =========================================================
-// BUSCAR E EXIBIR AVALIAÇÕES APROVADAS
-// =========================================================
-//
-// Busca no backend somente as avaliações aprovadas
-// pelo administrador e exibe essas avaliações
-// na seção pública do site.
-// =========================================================
+
 
 async function carregarAvaliacoesAprovadas() {
 
@@ -371,8 +364,8 @@ document.addEventListener("DOMContentLoaded", () => {
     initFooterYear();
 
     /*
-       08. Ano automático do rodapé
-    */
+   08. Carregar avaliações aprovadas
+*/
 
     carregarAvaliacoesAprovadas();
 
@@ -4372,5 +4365,5 @@ function initMapaAtuacao() {
         });
     });
 
-    setTimeout(() => mapa.resize(), 300);
+    setTimeout(() => mapa.resize(), 1000);
 }
