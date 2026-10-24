@@ -526,8 +526,18 @@ async function excluirAvaliacao(id) {
         );
 
         if (!resposta.ok) {
-            throw new Error("Erro ao excluir avaliação.");
-        }
+    const detalhe = await resposta.text();
+
+    console.error("Falha ao excluir avaliação:", {
+        id: id,
+        status: resposta.status,
+        resposta: detalhe
+    });
+
+    throw new Error(
+        `Erro ao excluir avaliação. HTTP ${resposta.status}`
+    );
+}
 
         alert("Avaliação excluída com sucesso!");
 
